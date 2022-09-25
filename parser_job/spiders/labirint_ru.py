@@ -20,11 +20,11 @@ class LabirintRuSpider(scrapy.Spider):
 
     def book_parse(self, response: HtmlResponse):
         book_ref = response.url
-        book_title = self.exctract_data(response.xpath("//h1/text()"))
-        book_author = self.exctract_data(response.xpath("//div[@class='authors']/a/text()"))
-        book_main_price = self.exctract_data(response.xpath('//div[@class="buying-priceold-val"]/span/text()'))
-        book_discount_price = self.exctract_data(response.xpath('//div[@class="buying-pricenew-val"]/span[@class="buying-pricenew-val-number"]/text()'))
-        book_rating = self.exctract_data(response.xpath('//div[@id="rate"]/text()'))
+        book_title = response.xpath("//h1/text()")
+        book_author = response.xpath("//div[@class='authors']/a/text()")
+        book_main_price = response.xpath('//div[@class="buying-priceold-val"]/span/text()')
+        book_discount_price = response.xpath('//div[@class="buying-pricenew-val"]/span[@class="buying-pricenew-val-number"]/text()')
+        book_rating = response.xpath('//div[@id="rate"]/text()')
 
         yield ParserJobItem(
             ref=book_ref,
@@ -34,13 +34,3 @@ class LabirintRuSpider(scrapy.Spider):
             discount_price=book_discount_price,
             rating=book_rating
         )
-
-    def exctract_data(self, selector):
-        if len(selector) == 0:
-            variable = None
-        elif len(selector) == 1:
-            variable = selector[0].root
-        elif len(selector) > 1:
-            variable = ', '.join([x.root for x in selector])
-
-        return variable
