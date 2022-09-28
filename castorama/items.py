@@ -9,9 +9,9 @@ from itemloaders.processors import MapCompose, Compose, TakeFirst
 
 def clean_price(value):
     try:
-        value = value[0].peplace(" ", "").replace('/n', '')
+        value = value[0].replace(" ", "").replace('/n', '')
         value = list(value)
-    except:
+    except KeyError:
         return value
     return value
 
@@ -23,4 +23,3 @@ class CastoramaItem(scrapy.Item):
     price = scrapy.Field(inpit_processor=Compose(clean_price), output_processor=TakeFirst())
     photos = scrapy.Field()
     _id = scrapy.Field()
-    pass
