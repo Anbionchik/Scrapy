@@ -26,5 +26,13 @@ class CastoramaPhotoPipeline(ImagesPipeline):
                     print(e)
 
     def item_completed(self, results, item, info):
-        item['photos'] = [itm[1] for itm in results if itm[0]]
+        if item['photos']:
+            item['photos'] = [itm[1] for itm in results if itm[0]]
         return item
+
+    def file_path(self, request, response=None, info=None, item=None):
+        # path_of_the_file = item['url'].split('/')[-1] + item['photos']['url'].split('/')[-1]
+        path_of_the_file = item['url'].split('/')[-1] + '/' + request.url.split('/')[-1]
+        return path_of_the_file
+
+
