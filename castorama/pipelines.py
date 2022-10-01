@@ -17,17 +17,20 @@ class CastoramaPipeline:
 
 class CastoramaPhotoPipeline(ImagesPipeline):
     def get_media_requests(self, item, info):
-
-        if item['photos']:
+        try:
             for img in item['photos']:
                 try:
                     yield Request(img)
                 except Exception as e:
                     print(e)
+        except KeyError as e:
+            print(e)
 
     def item_completed(self, results, item, info):
-        if item['photos']:
+        try:
             item['photos'] = [itm[1] for itm in results if itm[0]]
+        except KeyError:
+            return item
         return item
 
     def file_path(self, request, response=None, info=None, item=None):

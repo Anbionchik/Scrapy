@@ -18,10 +18,13 @@ class CastoramaSpider(scrapy.Spider):
         for link in pages_links:
             yield response.follow(link, callback=self.parse_goods)
 
+
     def parse_goods(self, response: HtmlResponse):
         loader = ItemLoader(item=CastoramaItem(), response=response)
         loader.add_xpath('name', "//h1/text()")
         loader.add_value('url', response.url)
         loader.add_xpath('price', "//span[@class='price']/span/span/text()")
         loader.add_xpath('photos', "//li[contains(@class, 'thumb-slide')]/img/@data-src")
+        loader.add_xpath('features', "//dl[@class='specs-table js-specs-table']/dt/span/text()")
+        loader.add_xpath('features', "//dl[@class='specs-table js-specs-table']/dd/text()")
         yield loader.load_item()
