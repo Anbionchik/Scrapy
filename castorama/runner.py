@@ -3,12 +3,11 @@ from scrapy.crawler import CrawlerRunner
 from scrapy.utils.log import configure_logging
 from scrapy.utils.project import get_project_settings
 
-from spiders.labirint_ru import LabirintRuSpider
-print()
+from spiders.castorama import CastoramaSpider
+
 if __name__ == '__main__':
-    print(1)
     configure_logging()
     settings = get_project_settings()
     runner = CrawlerRunner(settings)
-    runner.crawl(LabirintRuSpider)
+    runner.crawl(CastoramaSpider, query='Фотообои')
     reactor.run()
